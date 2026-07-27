@@ -60,7 +60,7 @@ function buildHref(path: string, returnTo?: string): string {
 }
 
 export function signInHref(returnTo?: string): string {
-  return buildHref("/sso/login", returnTo);
+  return buildHref("/oauth/login/google", returnTo);
 }
 
 export function signOutHref(returnTo?: string): string {

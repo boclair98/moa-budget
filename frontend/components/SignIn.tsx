@@ -18,7 +18,7 @@ export function SignInLink({
       href={signInHref(returnTo)}
       className={cn(buttonVariants({ size }))}
     >
-      Sign in with coders.kr
+      Google로 로그인
     </a>
   );
 }

@@ -7,3 +7,6 @@ __pycache__
 .env.*
 !.env.example
 .DS_Store
+.coders/
+*.log
+.coders-auth.ps1

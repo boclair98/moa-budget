@@ -7,6 +7,7 @@ from sqlalchemy import text
 from app.core.database import AsyncSessionLocal
 from app.routes.posts import router as posts_router
 from app.routes.users import router as users_router
+from app.routes.finance import router as finance_router
 
 
 @asynccontextmanager
@@ -15,7 +16,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="template-coders API",
+    title="모아 API",
     version="0.1.0",
     lifespan=lifespan,
     docs_url="/api/docs",
@@ -24,6 +25,7 @@ app = FastAPI(
 
 app.include_router(users_router)
 app.include_router(posts_router)
+app.include_router(finance_router)
 
 
 @app.get("/api/health")
