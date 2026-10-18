@@ -10,3 +10,11 @@ __pycache__
 .coders/
 *.log
 .coders-auth.ps1
+# Local credentials and private data
+*.key
+*.pem
+*.p12
+*.pfx
+*.sqlite*
+*.db
+uploads/

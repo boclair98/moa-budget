@@ -66,6 +66,7 @@ function Money({ value, sign = false }: { value: number; sign?: boolean }) {
 export function MoneyDashboard() {
   const me = useMe();
   const fileInput = useRef<HTMLInputElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -74,6 +75,17 @@ export function MoneyDashboard() {
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState<"transaction" | "budget" | "account" | null>(null);
   const [mobileNav, setMobileNav] = useState(false);
+  useEffect(() => {
+    if (!mobileNav) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileNav(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [mobileNav]);
   const [toast, setToast] = useState("");
   const [form, setForm] = useState({
     kind: "expense" as "expense" | "income",
@@ -313,7 +325,7 @@ export function MoneyDashboard() {
 
       <main className="main-area">
         <header className="topbar">
-          <button className="menu-button" onClick={() => setMobileNav(true)} aria-label="메뉴 열기"><Menu /></button>
+          <button ref={menuButton} className="menu-button" onClick={() => setMobileNav(true)} aria-label="메뉴 열기" aria-expanded={mobileNav}><Menu /></button>
           <div className="month-control"><CalendarDays size={18} /><input aria-label="조회 월" type="month" value={month} onChange={(e) => setMonth(e.target.value)} /><ChevronDown size={15} /></div>
           <div className="top-actions">
             <label className="search-box"><Search size={17} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="거래 검색" aria-label="거래 검색" /></label>
@@ -324,7 +336,7 @@ export function MoneyDashboard() {
 
         <div className="content" id="overview">
           <section className="welcome-row">
-            <div><p className="eyebrow">{monthLabel}</p><h1>이번 달 돈의 흐름</h1><p>오늘도 내 돈을 가볍게 들여다봐요.</p></div>
+            <div><p className="eyebrow">{monthLabel}</p><h1>이번 달 돈의 흐름</h1><p>수입부터 지출까지, 내가 기록한 흐름을 한눈에 확인하세요.</p></div>
             <div className="privacy-pill">실제 데이터만 표시 · 사용자별 분리 저장</div>
           </section>
 
